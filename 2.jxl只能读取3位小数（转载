@@ -1,0 +1,30 @@
+在用jxl 这个包读取excel的单元格的内容的时候，用如下语句：
+
+String text = cell.getContents();
+
+如果是数字，只能得到3位小数，超过的部分，会四舍五入。
+
+解决的办法就是： 把单元格的格式设置为数字，并留出足够长的小数位  
+
+第一种方法虽然有效，但是显得麻烦，可以通过下面方法得到正确的数字：       //我的数据少已经解决了
+
+if(cell.getType() == CellType.NUMBER){
+
+NumberCell numberCell = (NumberCell) cell;
+
+double value =numberCell.getValue();
+
+NumberFormat nf=NumberFormat.getInstance();
+
+nf.setMaximumFractionDigits(4);//保留4位小数 nf.setRoundingMode(RoundingMode.HALF_UP);
+
+/* * 如果想输出的格式用逗号隔开，可以设置成true */
+
+nf.setGroupingUsed(false);
+
+text=nf.format(value);
+
+}
+————————————————
+版权声明：本文为CSDN博主「邦加拉斯」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_42401159/article/details/114815062
